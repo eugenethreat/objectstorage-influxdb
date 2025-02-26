@@ -3,15 +3,16 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/influxdata/influxdb-client-go/v2"
-	"github.com/joho/godotenv"
 	"log"
 	"os"
+
+	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
+	"github.com/joho/godotenv"
 )
 
 // https://pkg.go.dev/github.com/influxdata/influxdb-client-go/v2#section-readme
 
-func main() {
+func connect_to_influx() influxdb2.Client {
 	// load env. variables
 	err := godotenv.Load(".env")
 
@@ -29,4 +30,5 @@ func main() {
 		fmt.Println("successfully connected to db - STATUS: " + health.Status)
 	}
 
+	return client
 }
