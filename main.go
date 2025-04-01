@@ -4,15 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"os"
 )
 
 func main() {
 
 	client := init_aws_client()
-	bucketName := os.Getenv("BUCKET_NAME")
-	folderPath := os.Getenv("FOLDER_PATH")
+	// bucketName := os.Getenv("BUCKET_NAME")
+	// folderPath := os.Getenv("FOLDER_PATH")
 
 	// Calculate folder size
 	// totalSize, err := getFolderSize(client, bucketName, folderPath)
@@ -22,12 +21,26 @@ func main() {
 
 	// fmt.Printf("Total size of folder '%s' in bucket '%s': %d bytes\n", folderPath, bucketName, totalSize)
 
-	only_2024, err := getListClientsFiles(client, bucketName, folderPath)
-	if err != nil {
-		log.Fatalf("Error calculating folder size: %v", err)
-	}
+	bucketName := "pcw-data"
+	// must include trailing slash
+	folderPath := "2025/04/01"
 
-	fmt.Printf("ONLY 2024 LIST CLIENTS ENDPOINT :) '%s' in bucket '%s': %d bytes\n", folderPath, bucketName, only_2024)
+	// pcw-data
+	size, _ := getFolderSize(client, bucketName, folderPath)
+	fmt.Printf("%s size: %s", bucketName+"/"+folderPath, size)
+
+	fmt.Println()
+
+	// pcw-cron
+	bucketName = "pcw-data-cron"
+	size_cron, _ := getFolderSize(client, bucketName, folderPath)
+	fmt.Printf("%s size: %s", bucketName+"/"+folderPath, size_cron)
+
+	// only_2024, err := getListClientsFiles(client, bucketName, folderPath)
+	// if err != nil {
+	// log.Fatalf("Error calculating folder size: %v", err)
+	// }
+	// fmt.Printf("ONLY 2024 LIST CLIENTS ENDPOINT :) '%s' in bucket '%s': %d bytes\n", folderPath, bucketName, only_2024)
 	// read_json()
 }
 
